@@ -1,0 +1,19 @@
+{
+    "DevelopmentEnvironment": "DefaultConnection",
+    "ConnectionStrings": {
+        "DefaultConnection": {
+            "hostname": "localhost",
+            "username": "roger",
+            "password": "sql2012",
+            "database": "roger_db",
+            "port": 3306
+        },
+        "LiveConnection": {
+            "hostname": "",
+            "username": "",
+            "password": "",
+            "database": "",
+            "port": 3306
+        }
+    }
+}
