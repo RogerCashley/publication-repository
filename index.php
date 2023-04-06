@@ -15,7 +15,7 @@ include 'bin/app_code/DataHelper.php';
 </head>
 <body>
   
-
+  
   <script src="app-assets/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
