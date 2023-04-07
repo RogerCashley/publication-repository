@@ -2,6 +2,8 @@
 
 class DataAccess
 {
+  
+
   public $connection_string;
 
   public $hostname;
@@ -42,7 +44,7 @@ class DataAccess
   public function returnAsString($query, $parameters = null)
   {
     $returnValue = null;
-    
+
     if ($query == null || trim($query) == '') {
       return null;
     }
@@ -59,13 +61,13 @@ class DataAccess
       $assoc = $result->fetch_row();
 
       $returnValue = isset($assoc) ? strval($assoc[0]) : null;
-      
+
       $result->close();
       $statement->close();
     } catch (\Throwable $e) {
       echo "<script>console.log($e)</script>";
     }
-    
+
     return $returnValue;
   }
 
@@ -89,20 +91,20 @@ class DataAccess
       $assoc = $result->fetch_row();
 
       $returnValue = isset($assoc) ? (int)($assoc[0]) : null;
-      
+
       $result->close();
       $statement->close();
     } catch (\Throwable $e) {
       echo "<script>console.log($e)</script>";
     }
-    
+
     return $returnValue;
   }
 
   public function returnAsFloat($query, $parameters = null)
   {
     $returnValue = null;
-    
+
     if ($query == null || trim($query) == '') {
       return null;
     }
@@ -119,13 +121,13 @@ class DataAccess
       $assoc = $result->fetch_row();
 
       $returnValue = isset($assoc) ? (float)($assoc[0]) : null;
-      
+
       $result->close();
       $statement->close();
     } catch (\Throwable $e) {
       echo "<script>console.log($e)</script>";
     }
-    
+
     return $returnValue;
   }
 
@@ -153,8 +155,8 @@ class DataAccess
     } catch (\Throwable $e) {
       echo "<script>console.log($e)</script>";
     }
-    
-    return $returnValue;
+
+    return (object)$returnValue;
   }
 
   public function returnAsList($query, $parameters = null)

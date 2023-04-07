@@ -5,7 +5,7 @@
             "hostname": "localhost",
             "username": "roger",
             "password": "sql2012",
-            "database": "roger_db",
+            "database": "publication_repo",
             "port": 3306
         },
         "LiveConnection": {
