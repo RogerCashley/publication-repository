@@ -4,12 +4,6 @@ include_once("bin/app_code/Snackbar.php");
 
 // Start the session
 session_start();
-
-// Unset all session variables
-session_unset();
-
-// Destroy the session
-session_destroy();
 ?>
 
 <!DOCTYPE html>
@@ -66,8 +60,7 @@ session_destroy();
             if ($remember_me) {
               setcookie("user_id", $user_id, time() + (86400 * 30), "/");
               setcookie("password", $password, time() + (86400 * 30), "/");
-            }
-            else {
+            } else {
               setcookie("user_id", $user_id, time() - (86400), "/");
               setcookie("password", $password, time() - (86400), "/");
             }
@@ -83,6 +76,12 @@ session_destroy();
         Snackbar::showAlert('Username and password field must be filled!');
       }
     }
+  } else {
+    // Unset all session variables
+    session_unset();
+
+    // Destroy the session
+    session_destroy();
   }
   ?>
 
