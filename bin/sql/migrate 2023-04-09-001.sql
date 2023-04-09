@@ -45,6 +45,18 @@ CREATE TABLE app_user_role (
 );
 
 -- punya madina
+CREATE TABLE publication_type (
+  type_id                     INT NOT NULL,
+  type_name                   VARCHAR (50),
+  PRIMARY KEY (type_id)
+);
+
+CREATE TABLE area_type (
+  area_id                     INT NOT NULL,
+  area_name                   VARCHAR (50),
+  PRIMARY KEY (area_id)
+);
+
 CREATE TABLE publication (
   publication_id              VARCHAR (50) NOT NULL,
   publication_title           VARCHAR (100) NOT NULL,
@@ -62,18 +74,6 @@ CREATE TABLE publication (
   PRIMARY KEY (publication_id),
   FOREIGN KEY (type_id) REFERENCES publication_type (type_id),
   FOREIGN KEY (area_id) REFERENCES area_type (area_id)
-);
-
-CREATE TABLE publication_type (
-  type_id                     INT NOT NULL,
-  type_name                   VARCHAR (50),
-  PRIMARY KEY (type_id)
-);
-
-CREATE TABLE area_type (
-  area_id                     INT NOT NULL,
-  area_name                   VARCHAR (50),
-  PRIMARY KEY (area_id)
 );
 
 CREATE TABLE publication_content (

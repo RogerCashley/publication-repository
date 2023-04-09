@@ -10,3 +10,9 @@
   width: 14px;
   height: 14px;
 }
+
+.btn-outline-info:hover,
+.btn-outline-info:focus,
+.btn-outline-info:active {
+  color: #fff; /* Change the text color to white */
+}
