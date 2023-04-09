@@ -3,12 +3,6 @@ include_once("bin/app_code/DataHelper.php");
 // Start the session
 session_start();
 
-// Unset all session variables
-session_unset();
-
-// Destroy the session
-session_destroy();
-
 // index.php functions to check remember me
 if (isset($_COOKIE['user_id']) && isset($_COOKIE['password'])) {
   $user_id = $_COOKIE['user_id'];
@@ -43,6 +37,12 @@ if (isset($_COOKIE['user_id']) && isset($_COOKIE['password'])) {
     }
   }
 }
+
+// Unset all session variables
+session_unset();
+
+// Destroy the session
+session_destroy();
 
 // Redirect to login page if everything else fails
 header("Location: login.php");
