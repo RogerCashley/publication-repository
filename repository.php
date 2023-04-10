@@ -37,7 +37,7 @@
   $is_author = $data_access->returnAsInt('SELECT COUNT(*) AS Cnt FROM publication_authors WHERE publication_id = ? AND user_id = ?;', array($publication_id, $_SESSION['user_id'])) > 0;
   ?>
 
-  <title><?php echo $publication->publication_title . " - Repository" ?></title>
+  <title><?php echo $publication->publication_title . " - Publication Repository" ?></title>
 </head>
 
 <body>
