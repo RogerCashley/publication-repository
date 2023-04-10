@@ -34,10 +34,10 @@
         <h4>Your Repositories</h4>
       </div>
       <div class="col-2 col-lg-6 text-end">
-        <button class="btn btn-primary">
+        <a class="btn btn-primary" href="create-repository.php">
           <i data-feather="file" class="text-sm"></i>
           <span class="d-inline-block align-middle d-none d-md-inline-block">Add New</span>
-        </button>
+        </a>
       </div>
     </div>
 
@@ -50,43 +50,32 @@
 
       <div class="col-12 mb-2 d-flex flex-row justify-content-start">
         <div class="btn-group">
-          <button type="button" class="btn btn-outline-primary">
-            Type
-          </button>
-          <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-            <span class="visually-hidden">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" data-filter-type="">All</a></li>
+          <select class="form-select border border-primary" aria-label="Filter by type">
+            <option value="" data-filter-type="">All Type</option>
             <?php
-            $publication_types = $data_access->returnAsList('SELECT * FROM publication_type ORDER BY type_name ASC; ');
+            $publication_types = $data_access->returnAsList('SELECT * FROM publication_type ORDER BY type_name ASC;');
             foreach ($publication_types as $publication_type) {
               $type_id = $publication_type['type_id'];
               $type_name = $publication_type['type_name'];
-              echo "<li><a class=\"dropdown-item\" href=\"#\" data-filter-type=\"$type_id\">$type_name</a></li>";
+              echo "<option value=\"$type_id\" data-filter-type=\"$type_id\">$type_name</option>";
             }
             ?>
-          </ul>
+          </select>
         </div>
 
+
         <div class="btn-group ms-2">
-          <button type="button" class="btn btn-outline-info">
-            Area
-          </button>
-          <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-            <span class="visually-hidden">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" data-filter-area="">All</a></li>
+          <select class="form-select border border-info" aria-label="Filter by type">
+            <option value="" data-filter-type="">All Area</option>
             <?php
             $area_types = $data_access->returnAsList('SELECT * FROM area_type ORDER BY area_name ASC; ');
             foreach ($area_types as $area_type) {
               $area_id = $area_type['area_id'];
               $area_name = $area_type['area_name'];
-              echo "<li><a class=\"dropdown-item\" href=\"#\" data-filter-area=\"$area_id\">$area_name</a></li>";
+              echo "<option value=\"$area_id\" data-filter-type=\"$area_id\">$area_name</option>";
             }
             ?>
-          </ul>
+          </select>
         </div>
         <div class="btn-group ms-auto">
           <button type="button" class="btn btn-outline-secondary">
