@@ -50,10 +50,12 @@ session_start();
           $password_hash = $app_user->password_salt . $password . $app_user->password_pepper;
           if (password_verify($password_hash, $app_user->password_hash)) {
             // Get user role
+            $app_user_info = $data_access->returnAsObject('SELECT * FROM vw_app_user WHERE user_id = ?;', array($user_id));
             $role = $data_access->returnAsObject('SELECT * FROM app_role WHERE role_id IN (SELECT role_id FROM app_user_role WHERE user_id = ?);', array($user_id));
 
             // Save to session
             $_SESSION['user_id'] = $user_id;
+            $_SESSION['user_info'] = serialize($app_user_info);
             $_SESSION['role'] = serialize($role);
 
             // Check for remember me and cookie

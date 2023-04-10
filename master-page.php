@@ -11,7 +11,8 @@ if (!isset($_SESSION['user_id'])) {
   exit;
 }
 
-function bindNavigationBar() {
+function bindNavigationBar()
+{
   echo '
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
       <div class="container container-fluid">
@@ -34,6 +35,34 @@ function bindNavigationBar() {
   ';
 }
 
-function bindPublications($data_access) {
-  
+function renderRepositoryCard($id, $name, $type, $area, $description, $uploadedOn)
+{
+  return '
+    <div class="my-3 repository-card d-block" data-filter-id="' . $id . '" data-filter-name="' . $name . '" data-filter-type="' . $type . '" data-filter-area="' . $area . '" data-filter-date="' . $uploadedOn . '">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-11">
+              <h5 class="card-title"><a class="text-decoration-none" href="repository.php?publication_id=' . $id . '">' . $name . '</a></h5>
+            </div>
+            <div class="col-1">
+              <div class="circle rounded-circle bg-success status-circle float-end"></div>
+            </div>
+          </div>
+          <p class="card-text">' . $description . '</p>
+          <div class="row d-flex justify-content-between align-items-center">
+            <div class="col-12 col-lg-9">
+              <small>
+                <span class="badge bg-primary rounded-pill">' . $type . '</span>
+                <span class="badge bg-info rounded-pill">' . $area . '</span>
+              </small>
+            </div>
+            <div class="col-12 col-lg-3 text-lg-end">
+              <small class="text-muted">Uploaded on ' . $uploadedOn . '</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  ';
 }

@@ -79,7 +79,6 @@ CREATE TABLE publication (
 CREATE TABLE publication_content (
   publication_id              VARCHAR (50) NOT NULL,
   content_file                TEXT,
-  -- content will be path to file?
   PRIMARY KEY (publication_id),
   FOREIGN KEY (publication_id) REFERENCES publication (publication_id)
 );
