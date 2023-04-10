@@ -47,3 +47,14 @@ BEGIN
 END //
 
 DELIMITER ;
+
+CREATE VIEW vw_publication AS
+SELECT p.publication_id, p.publication_title, p.publication_date, p.lang, p.publication_abstract, p.doi, p.type_id, pt.type_name, p.area_id, at.area_name, p.publication_ref, p.volume, p.issue, p.pages, p.series, pc.content_file, GROUP_CONCAT(a.full_name SEPARATOR ', ') as authors
+FROM publication p
+JOIN publication_type pt ON p.type_id = pt.type_id
+JOIN area_type at ON p.area_id = at.area_id
+LEFT JOIN publication_content pc ON p.publication_id = pc.publication_id
+LEFT JOIN publication_authors pa ON p.publication_id = pa.publication_id
+LEFT JOIN app_user a ON pa.user_id = a.user_id
+GROUP BY p.publication_id, p.publication_title, p.publication_date, p.lang, p.publication_abstract, p.doi, p.type_id, pt.type_name, p.area_id, at.area_name, p.publication_ref, p.volume, p.issue, p.pages, p.series, pc.content_file
+ORDER BY a.full_name ASC;

@@ -1,6 +1,7 @@
 <?php
 include_once("bin/app_code/DataHelper.php");
 include_once("bin/app_code/Snackbar.php");
+include_once("bin/app_code/ClassLibrary.php");
 
 // Start the session
 session_start();
@@ -35,21 +36,22 @@ function bindNavigationBar()
   ';
 }
 
-function renderRepositoryCard($id, $name, $type, $area, $description, $uploadedOn)
+function renderRepositoryCard($user_id, $id, $name, $type, $area, $description, $uploadedOn)
 {
+  $encrypted_id = ClassLibrary::encrypt($id, $user_id);
   return '
     <div class="my-3 repository-card d-block" data-filter-id="' . $id . '" data-filter-name="' . $name . '" data-filter-type="' . $type . '" data-filter-area="' . $area . '" data-filter-date="' . $uploadedOn . '">
       <div class="card">
         <div class="card-body">
           <div class="row mb-3">
             <div class="col-11">
-              <h5 class="card-title"><a class="text-decoration-none" href="repository.php?publication_id=' . $id . '">' . $name . '</a></h5>
+              <h5 class="card-title"><a class="text-decoration-none" href="repository.php?publication_id=' . $encrypted_id . '">' . $name . '</a></h5>
             </div>
             <div class="col-1">
               <div class="circle rounded-circle bg-success status-circle float-end"></div>
             </div>
           </div>
-          <p class="card-text">' . $description . '</p>
+          <small class="card-text">' . $description . '</small>
           <div class="row d-flex justify-content-between align-items-center">
             <div class="col-12 col-lg-9">
               <small>

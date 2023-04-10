@@ -90,9 +90,10 @@
       // Allow higher roles to view lower roles, but need to be in same faculty
       $publications = $data_access->returnAsList('CALL get_publications(?);', array($_SESSION['user_id']));
       foreach ($publications as $publication) {
-        $shrt_abstract = substr($publication['publication_abstract'], 0, 128) . "...";
+        $shrt_abstract = substr($publication['publication_abstract'], 0, 256) . "...";
         $datetime = new DateTime($publication['publication_date']);
         echo renderRepositoryCard(
+          $_SESSION['user_id'],
           $publication['publication_id'],
           $publication['publication_title'],
           $publication['type_name'],
