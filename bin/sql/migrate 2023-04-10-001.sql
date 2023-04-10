@@ -29,7 +29,7 @@ DELIMITER //
 CREATE PROCEDURE get_publications(IN user_id VARCHAR(50))
 BEGIN
     SELECT p.publication_id, p.publication_title, p.publication_date, p.publication_abstract,
-           pt.type_name, at.area_name
+           pt.type_name, at.area_name, p.publication_owner
     FROM publication p
     INNER JOIN publication_authors pa ON p.publication_id = pa.publication_id
     INNER JOIN app_user au ON pa.user_id = au.user_id
@@ -49,7 +49,7 @@ END //
 DELIMITER ;
 
 CREATE VIEW vw_publication AS
-SELECT p.publication_id, p.publication_title, p.publication_date, p.lang, p.publication_abstract, p.doi, p.type_id, pt.type_name, p.area_id, at.area_name, p.publication_ref, p.volume, p.issue, p.pages, p.series, pc.content_file, GROUP_CONCAT(a.full_name SEPARATOR ', ') as authors
+SELECT p.publication_id, p.publication_title, p.publication_date, p.lang, p.publication_abstract, p.doi, p.type_id, pt.type_name, p.area_id, at.area_name, p.publication_ref, p.volume, p.issue, p.pages, p.series, pc.content_file, p.publication_owner, GROUP_CONCAT(a.full_name SEPARATOR ', ') as authors
 FROM publication p
 JOIN publication_type pt ON p.type_id = pt.type_id
 JOIN area_type at ON p.area_id = at.area_id
@@ -58,3 +58,6 @@ LEFT JOIN publication_authors pa ON p.publication_id = pa.publication_id
 LEFT JOIN app_user a ON pa.user_id = a.user_id
 GROUP BY p.publication_id, p.publication_title, p.publication_date, p.lang, p.publication_abstract, p.doi, p.type_id, pt.type_name, p.area_id, at.area_name, p.publication_ref, p.volume, p.issue, p.pages, p.series, pc.content_file
 ORDER BY a.full_name ASC;
+
+ALTER TABLE publication ADD publication_owner VARCHAR (50);
+UPDATE publication SET publication_owner = '2020390020';

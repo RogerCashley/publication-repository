@@ -1,7 +1,3 @@
-<?php
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,6 +18,10 @@
   <!-- CUSTOM CSS -->
   <link href="assets/css/master-styles.css" rel="stylesheet">
 
+  <title>Repository - Publication Repository</title>
+</head>
+
+<body>
   <?php
   // !IMPORTANT: Always call master page for navigation binding and authentication
   require_once("master-page.php");
@@ -35,13 +35,7 @@
   $publication_id = ClassLibrary::decrypt($_GET['publication_id'], $_SESSION['user_id']);
   $publication = $data_access->returnAsObject('SELECT * FROM vw_publication WHERE publication_id = ?;', array($publication_id));
   $is_author = $data_access->returnAsInt('SELECT COUNT(*) AS Cnt FROM publication_authors WHERE publication_id = ? AND user_id = ?;', array($publication_id, $_SESSION['user_id'])) > 0;
-  ?>
 
-  <title><?php echo $publication->publication_title . " - Publication Repository" ?></title>
-</head>
-
-<body>
-  <?php
   if ($publication == null || !(array)$publication) {
     Snackbar::redirectAlert('You are not authorized to view this repository!', 'home.php');
     exit;
@@ -56,21 +50,20 @@
           <h4><?php echo $publication->publication_title; ?></h4>
         </div>
         <div class="col-lg-3 text-end">
-          <?php
-          if ($is_author) {
-          ?>
-            <div class="btn-group">
-              <a class="btn btn-outline-secondary" href="home.php">
-                <i data-feather="chevron-left" class="text-sm"></i>
-                <span class="d-inline-block align-middle d-none d-md-inline-block">Return</span>
-              </a>
-              <a class="btn btn-outline-primary" href="edit-repository.php">
+          <div class="btn-group">
+            <a class="btn btn-outline-secondary" href="home.php">
+              <i data-feather="chevron-left" class="text-sm"></i>
+              <span class="d-inline-block align-middle d-none d-md-inline-block">Return</span>
+            </a>
+            <?php
+            if ($is_author) {
+            ?>
+              <a class="btn btn-outline-primary" href="edit-repository.php?publication_id=<?php echo $_GET['publication_id']; ?>">
                 <i data-feather="edit" class="text-sm"></i>
                 <span class="d-inline-block align-middle d-none d-md-inline-block">Edit</span>
               </a>
-            </div>
-
-          <?php } ?>
+            <?php } ?>
+          </div>
         </div>
       </div>
 

@@ -46,12 +46,15 @@
     $pages = $_POST['pages'];
     $series = $_POST['series'];
 
-    $selected_values = $_POST['authors'];
     $selected_array = array();
-    foreach ($selected_values as $value) {
-      $selected_array[] = $value;
+    if (isset($_POST['authors'])) {
+      $selected_values = $_POST['authors'];
+      foreach ($selected_values as $value) {
+        $selected_array[] = $value;
+      }
     }
     array_push($selected_array, $_SESSION['user_id']);
+    array_push($selected_array, '');
 
     // Create id
     $publication_month = $publication_date->format('m');
@@ -117,7 +120,6 @@
     // render navigation bar
     bindNavigationBar();
   ?>
-
     <!-- Page Content -->
     <div class="container container-fluid">
       <div class="row">
@@ -225,9 +227,7 @@
       </form>
     </div>
 
-  <?php
-  }
-  ?>
+  <?php } ?>
 
   <!-- VENDOR JS: Feather Icon -->
   <script src="app-assets/vendors/feathericons/feather.min.js"></script>
