@@ -24,7 +24,7 @@ function bindNavigationBar()
         <div class="collapse navbar-collapse" id="navbarNav">  
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="account-setting.php">Profile</a>
+              <a class="nav-link" aria-current="page" href="account-setting.php">Change Password</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="logout.php">Logout</a>

@@ -37,7 +37,7 @@
   $is_author = $data_access->returnAsInt('SELECT COUNT(*) AS Cnt FROM publication_authors WHERE publication_id = ? AND user_id = ?;', array($publication_id, $_SESSION['user_id'])) > 0;
 
   if ($publication == null || !(array)$publication) {
-    Snackbar::redirectAlert('You are not authorized to view this repository!', 'home.php');
+    Snackbar::redirectAlert('Publication id verification failed!', 'home.php');
     exit;
   } else {
     // render navigation bar
@@ -46,10 +46,10 @@
 
     <div class="container container-fluid">
       <div class="row">
-        <div class="col-lg-9">
+        <div class="col-lg-8">
           <h4><?php echo $publication->publication_title; ?></h4>
         </div>
-        <div class="col-lg-3 text-end">
+        <div class="col-lg-4 text-end">
           <div class="btn-group">
             <a class="btn btn-outline-secondary" href="home.php">
               <i data-feather="chevron-left" class="text-sm"></i>
@@ -62,7 +62,17 @@
                 <i data-feather="edit" class="text-sm"></i>
                 <span class="d-inline-block align-middle d-none d-md-inline-block">Edit</span>
               </a>
-            <?php } ?>
+            <?php
+            }
+            if ($publication->publication_owner == $_SESSION['user_id']) {
+            ?>
+              <a class="btn btn-outline-danger" href="delete-repository.php?publication_id=<?php echo $_GET['publication_id']; ?>">
+                <i data-feather="trash" class="text-sm"></i>
+                <span class="d-inline-block align-middle d-none d-md-inline-block">Delete</span>
+              </a>
+            <?php
+            }
+            ?>
           </div>
         </div>
       </div>

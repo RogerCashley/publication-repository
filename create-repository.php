@@ -17,7 +17,7 @@
   <!-- VENDOR JS: Snackbar -->
   <script src="app-assets/vendors/snackbar/snackbar.min.js"></script>
   <!-- VENDOR CSS: Select2 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+  <link rel="stylesheet" href="app-assets/vendors/select2/select2-bootstrap-5-theme.min.css" />
   <link rel="stylesheet" href="app-assets/vendors/select2/select2.min.css">
   <!-- VENDOR JS: Select2 -->
   <script src="app-assets/vendors/select2/select2.min.js"></script>
