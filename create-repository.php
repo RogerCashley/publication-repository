@@ -77,7 +77,7 @@
 
     // publication table
     $data_access->executeNonQuery(
-      'INSERT INTO publication (publication_id, publication_title, publication_date, lang, publication_abstract, doi, type_id, area_id, publication_ref, volume, issue, pages, series) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?);',
+      'INSERT INTO publication (publication_id, publication_title, publication_date, lang, publication_abstract, doi, type_id, area_id, publication_ref, volume, issue, pages, series, publication_owner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?);',
       array(
         $new_publication_id,
         $publication_title,
@@ -91,7 +91,8 @@
         $volume,
         $issue,
         $pages,
-        $series
+        $series,
+        $_SESSION['user_id']
       )
     );
 
