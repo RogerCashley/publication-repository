@@ -106,13 +106,15 @@
 
     //publication author
     foreach ($selected_array as $author) {
-      $data_access->executeNonQuery(
-        'INSERT INTO publication_authors (publication_id, user_id) VALUES (?, ?);',
-        array(
-          $new_publication_id,
-          $author
-        )
-      );
+      if (trim($author) != '') {
+        $data_access->executeNonQuery(
+          'INSERT INTO publication_authors (publication_id, user_id) VALUES (?, ?);',
+          array(
+            $new_publication_id,
+            $author
+          )
+        );
+      }
     }
 
     Snackbar::redirectAlert('Publication uploaded successfully!', 'home.php', 'top-center');
@@ -207,7 +209,9 @@
             <label for="authors">Authors</label>
             <select class="form-select" id="authors" name="authors[]" multiple>
               <?php
-              $authors = $data_access->returnAsList('SELECT * FROM app_user WHERE user_id <> ? ORDER BY full_name ASC;', array($_SESSION['user_id']));
+              $authors = $data_access->returnAsList(
+                'SELECT u.user_id, u.full_name, r1.role_name FROM app_user_role ur1 JOIN app_role r1 ON ur1.role_id = r1.role_id JOIN app_role r2 ON r1.role_id <= r2.role_id JOIN app_user_role ur2 ON r2.role_id = ur2.role_id JOIN app_user u ON ur2.user_id = u.user_id WHERE ur1.user_id = ? AND u.user_id <> ?;', 
+                array($_SESSION['user_id'], $_SESSION['user_id']));
               foreach ($authors as $author) {
                 $user_id = $author['user_id'];
                 $full_name = $author['full_name'];

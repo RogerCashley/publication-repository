@@ -30,3 +30,41 @@ UPDATE app_user SET password_salt = '2eoaJuvNArIyjZ58', password_pepper = '17Bly
 UPDATE app_user SET password_salt = 'j3YPWmQjz5j4WdfH', password_pepper = 'MvqVgI0OR1bVSCx6', password_hash = '$2y$10$mK/xpeOHJgiZbIbCiiO9deYfsnSuqP.MHZc.uQBKMU3Ha4Eb4Rssq' WHERE user_id = 'ADMIN01';
 UPDATE app_user SET password_salt = 'xQEFRY188MW4sTcs', password_pepper = 'FZnhwETL7qnVvgwM', password_hash = '$2y$10$fDcQuHnz1rzfUN2YgDXTcePimlXRMiOYiN/htzGJUcVlTaMHkiCXO' WHERE user_id = 'CS01';
 UPDATE app_user SET password_salt = 'CocUKcIN0rnSOeZ3', password_pepper = '0Ik6Ba5aG4K9Xn22', password_hash = '$2y$10$kmiFHW/ZeCf.blMXPUwb8u4nXWr4JFS/4BsWRax95PDYG3Ge7dASa' WHERE user_id = 'FET01';
+
+-- ADD IS ADMIN CHECK FOR ALLOWING ALL REPOSITORY VIEWING
+ALTER TABLE app_role ADD is_admin VARCHAR (1);
+UPDATE app_role SET is_admin = 'T';
+UPDATE app_role SET is_admin = 'Y' WHERE role_id = 1;
+
+INSERT INTO study_program
+VALUES
+(99, 'FET Admin', 'FET'),
+(98, 'FAS Admin', 'FAS'),
+(97, 'FOB Admin', 'FOB'),
+(96, 'FOE Admin', 'FOE');
+
+DROP PROCEDURE get_publications;
+
+DELIMITER //
+
+CREATE PROCEDURE get_publications(IN user_id VARCHAR(50))
+BEGIN
+    SELECT p.publication_id, p.publication_title, p.publication_date, p.publication_abstract,
+           pt.type_name, at.area_name, p.publication_owner
+    FROM publication p
+    INNER JOIN publication_authors pa ON p.publication_id = pa.publication_id
+    INNER JOIN app_user au ON pa.user_id = au.user_id
+    INNER JOIN app_user_role aur ON aur.user_id = au.user_id
+    INNER JOIN app_role ar ON ar.role_id = aur.role_id
+    INNER JOIN study_program sp ON au.program_id = sp.program_id
+    INNER JOIN faculty f ON sp.faculty_id = f.faculty_id
+    INNER JOIN publication_type pt ON p.type_id = pt.type_id
+    INNER JOIN area_type at ON p.area_id = at.area_id
+    WHERE (is_admin = 'Y') OR ((ar.role_id > (SELECT aur.role_id FROM app_user_role aur WHERE aur.user_id = user_id LIMIT 1)
+           AND f.faculty_id = (SELECT sp.faculty_id FROM app_user WHERE user_id = user_id LIMIT 1))
+          OR pa.user_id = user_id)
+    GROUP BY p.publication_id, p.publication_title, p.publication_date, p.publication_abstract, pt.type_name, at.area_name
+    ORDER BY p.publication_date DESC;
+END //
+
+DELIMITER ;
