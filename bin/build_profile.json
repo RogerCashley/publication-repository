@@ -2,9 +2,9 @@
     "DevelopmentEnvironment": "DefaultConnection",
     "ConnectionStrings": {
         "DefaultConnection": {
-            "hostname": "localhost",
-            "username": "roger",
-            "password": "sql2012",
+            "hostname": "hostname",
+            "username": "username",
+            "password": "password",
             "database": "publication_repo",
             "port": 3306
         },

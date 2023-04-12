@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2023 at 03:33 PM
+-- Generation Time: Apr 11, 2023 at 05:57 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -37,9 +37,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_publications` (IN `user_id` VAR
     INNER JOIN faculty f ON sp.faculty_id = f.faculty_id
     INNER JOIN publication_type pt ON p.type_id = pt.type_id
     INNER JOIN area_type at ON p.area_id = at.area_id
-    WHERE (ar.role_id > (SELECT aur.role_id FROM app_user_role aur WHERE aur.user_id = user_id LIMIT 1)
+    WHERE (is_admin = 'Y') OR ((ar.role_id > (SELECT aur.role_id FROM app_user_role aur WHERE aur.user_id = user_id LIMIT 1)
            AND f.faculty_id = (SELECT sp.faculty_id FROM app_user WHERE user_id = user_id LIMIT 1))
-          OR pa.user_id = user_id
+          OR pa.user_id = user_id)
     GROUP BY p.publication_id, p.publication_title, p.publication_date, p.publication_abstract, pt.type_name, at.area_name
     ORDER BY p.publication_date DESC;
 END$$
@@ -70,18 +70,19 @@ DELIMITER ;
 
 CREATE TABLE `app_role` (
   `role_id` int(11) NOT NULL,
-  `role_name` varchar(20) DEFAULT NULL
+  `role_name` varchar(20) DEFAULT NULL,
+  `is_admin` varchar(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `app_role`
 --
 
-INSERT INTO `app_role` (`role_id`, `role_name`) VALUES
-(1, 'administrator'),
-(2, 'lecturer'),
-(3, 'faculty admin'),
-(4, 'student');
+INSERT INTO `app_role` (`role_id`, `role_name`, `is_admin`) VALUES
+(1, 'administrator', 'Y'),
+(2, 'lecturer', 'T'),
+(3, 'faculty admin', 'T'),
+(4, 'student', 'T');
 
 -- --------------------------------------------------------
 
@@ -233,6 +234,13 @@ CREATE TABLE `publication` (
   `publication_owner` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `publication`
+--
+
+INSERT INTO `publication` (`publication_id`, `publication_title`, `publication_date`, `lang`, `publication_abstract`, `doi`, `type_id`, `area_id`, `publication_ref`, `volume`, `issue`, `pages`, `series`, `publication_owner`) VALUES
+('PUB-2004-001', 'President A.I.: A Novel Approach to Evaluating Artificial Intelligence Agents in Video Games', '2023-04-11 00:00:00', 'English', 'Video games are often used as testbeds for artificial intelligence (AI) agents, as they provide rich and complex environments that challenge various aspects of cognition and decision making. However, most existing methods for evaluating AI agents in video games focus on specific tasks or scenarios, such as playing a single level or defeating a particular opponent. These methods may not capture the general intelligence and adaptability of the agents, nor their ability to handle diverse and dynamic situations. In this paper, we propose a novel approach to evaluating AI agents in video games, based on the concept of President A.I. President A.I. is a hypothetical AI agent that can play any video game at a human-like level, and also act as a leader and a representative of the AI community. We define a set of criteria and metrics for assessing how close an AI agent is to President A.I., and apply them to several popular video games across different genres and platforms. We also compare our approach with existing methods and discuss its advantages and limitations. We hope that our work will inspire new research directions and challenges for AI agents in video games, and contribute to the development of more general and robust AI systems.', '', 5, 1, 'Stuart, K. (2021). Think, fight, feel: how video game artificial intelligence is evolving. The Guardian. Retrieved from 1.', 0, 0, '', '', '2020390020');
+
 -- --------------------------------------------------------
 
 --
@@ -244,6 +252,15 @@ CREATE TABLE `publication_authors` (
   `user_id` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `publication_authors`
+--
+
+INSERT INTO `publication_authors` (`publication_id`, `user_id`) VALUES
+('PUB-2004-001', '2019390018'),
+('PUB-2004-001', '2020390018'),
+('PUB-2004-001', '2020390020');
+
 -- --------------------------------------------------------
 
 --
@@ -254,6 +271,13 @@ CREATE TABLE `publication_content` (
   `publication_id` varchar(50) NOT NULL,
   `content_file` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `publication_content`
+--
+
+INSERT INTO `publication_content` (`publication_id`, `content_file`) VALUES
+('PUB-2004-001', 'uploads/PUB-2004-001_1681226185.py');
 
 -- --------------------------------------------------------
 
@@ -320,7 +344,11 @@ INSERT INTO `study_program` (`program_id`, `program_name`, `faculty_id`) VALUES
 (9, 'Information Systems', 'FET'),
 (10, 'English Language Edu', 'FOE'),
 (11, 'Mathematics Educatio', 'FOE'),
-(12, 'Psychology', 'FAS');
+(12, 'Psychology', 'FAS'),
+(96, 'FOE Admin', 'FOE'),
+(97, 'FOB Admin', 'FOB'),
+(98, 'FAS Admin', 'FAS'),
+(99, 'FET Admin', 'FET');
 
 -- --------------------------------------------------------
 

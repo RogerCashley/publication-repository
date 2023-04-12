@@ -136,6 +136,25 @@ if args.bench:
         sys.exit(1)
 
     for app in apps:
+        process = Process(pid=100 + incram)
+        bin_dir = '/home/tosiron/benchmarks/'
+        if app == 'mcf':
+            process.executable = bin_dir+'spec2006/mcf/mcf_base.armv71'
+            data = bin_dir+'spec2006/mcf/test/input/inp.in'
+            output = bin_dir+'spec2006/mcf/inp.out'
+            process.cmd = [process.executable] + [data] + ['>'] + [output]
+        elif app == 'bzip2':
+            process.executable = bin_dir+'spec2006/bzip2/bzip2_base.arm71'
+            data = bin_dir+'spec2006/bzip2/test/input/chicken.jpg'
+            output = bin_dir+'spec2006/bzip2/out.out'
+            process.cmd = [process.executable] + [data] + [output]
+        else:
+            print('Benchmark not supported')
+            sys.exit(1)
+        incram += 1
+        multiprocesses.append(process)
+
+    for app in apps:
         process = Process(pid = 100 + incram)
         bin_dir = '/home/tosiron/benchmarks/'
     if app == 'mcf':
